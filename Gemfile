@@ -1,15 +1,13 @@
 source "https://rubygems.org"
 
 ruby "3.1.1"
-
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
-
-# Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
+gem 'rswag-api'
+gem 'rswag-ui'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
@@ -38,12 +36,17 @@ gem "rack-cors"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
+  gem 'ffaker', '~> 2.23'
+  gem 'rspec', '~> 3.13'
+  gem 'rswag-specs', '~> 2.13'
+end
+
+group :test do
+  gem 'simplecov', '~> 0.22.0', require: false
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-
-  gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
+ # gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
-
