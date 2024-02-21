@@ -32,7 +32,8 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw]
   gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
   gem 'ffaker', '~> 2.23'
-  gem 'rspec', '~> 3.13'
+  gem 'pry-rails', '~> 0.3.9'
+  gem 'rspec-rails', '~> 6.1.0'
   gem 'rswag-specs', '~> 2.13'
   gem 'rubocop', '~> 1.60', '>= 1.60.2', require: false
 end
