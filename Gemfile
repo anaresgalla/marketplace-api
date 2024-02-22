@@ -25,6 +25,7 @@ gem 'rswag-ui'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'bootsnap', require: false
+gem 'devise', '~> 4.9', '>= 4.9.3'
 gem 'rack-cors'
 gem 'tzinfo-data', platforms: %i[mswin mswin64 mingw x64_mingw jruby]
 
