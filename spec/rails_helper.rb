@@ -8,7 +8,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 
 # coloca no support_path o spec, support e tudo o que tiver dentro das pastas -> **
-rails_support_path = Rails.root.join('spec', 'support', '**', '*.rb') 
+rails_support_path = Rails.root.join('spec', 'support', '**', '*.rb')
 Dir[rails_support_path].each { |file| require file }
 
 if ENV['RAILS_ENV'] == 'test'
