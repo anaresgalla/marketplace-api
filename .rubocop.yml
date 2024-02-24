@@ -1,3 +1,25 @@
 Style/Documentation:
   Enabled: false
-  
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'bin/bundle'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'bin/bundle'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'bin/bundle'
+
+Layout/LineLength:
+  Exclude:
+    - 'bin/bundle'
+    - 'config/initializers/devise.rb'
+
+AllCops:
+  Exclude:
+    - 'spec/**/*.rb'
+  SuggestExtensions: false
+  NewCops: enable
