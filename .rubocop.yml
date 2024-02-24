@@ -1,5 +1,5 @@
 Style/Documentation:
-  Enabled: false
+  Enabled: true
 
 Metrics/CyclomaticComplexity:
   Exclude:
