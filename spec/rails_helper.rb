@@ -28,7 +28,6 @@ RSpec.configure do |config|
   ]
 
   config.use_transactional_fixtures = true
-
   # config.use_active_record = false
 
   config.infer_spec_type_from_file_location!
@@ -39,6 +38,9 @@ RSpec.configure do |config|
   config.include Request::HeadersHelpers, type: :controller
   config.before(:each, type: :controller) do
     include_default_accept_headers
+  end
+  config.before(:each, type: :request) do |example|
+    host! 'api.example.com' 
   end
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
