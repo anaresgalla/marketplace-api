@@ -29,68 +29,58 @@ RSpec.describe 'api/v1/users', type: :request do
     end
   end
 
-  # path '/users/{id}' do
-  #   # You'll want to customize the parameter types...
-  #   parameter name: 'id', in: :path, type: :string, description: 'id'
+  path '/users' do
+    post 'Create user' do
+      tags 'Api::V1::Users'
+      consumes 'application/json'
+      parameter name: :body,
+                in: :body,
+                schema: {
+                  type: :object,
+                  properties: {
+                    user: {
+                      type: :object,
+                      properties: {
+                        email: { type: :string},
+                        password: { type: :string},
+                        password_confirmation: { type: :string}
+                      }
+                    }
+                  }
 
-  #   get('show user') do
-  #     response(200, 'successful') do
-  #       let(:id) { '123' }
+                }
 
-  #       after do |example|
-  #         example.metadata[:response][:content] = {
-  #           'application/json' => {
-  #             example: JSON.parse(response.body, symbolize_names: true)
-  #           }
-  #         }
-  #       end
-  #       run_test!
-  #     end
-  #   end
+      response '201', 'create user' do
+        let!(:body) do
+          {
+            'user': {
+              'email': 'example@example.org',
+              'password': '123456',
+              'password_confirmation': '123456'
+            }
+          }
+        end
 
-  #   patch('update user') do
-  #     response(200, 'successful') do
-  #       let(:id) { '123' }
+        run_test!
+      end
+    end
+  end
 
-  #       after do |example|
-  #         example.metadata[:response][:content] = {
-  #           'application/json' => {
-  #             example: JSON.parse(response.body, symbolize_names: true)
-  #           }
-  #         }
-  #       end
-  #       run_test!
-  #     end
-  #   end
+  path '/users/{id}' do
+    delete 'Deletes user' do
+      tags 'API::V1::USERS'
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string
 
-  #   put('update user') do
-  #     response(200, 'successful') do
-  #       let(:id) { '123' }
+      response '204', 'user deleted' do
+        let!(:id) { FactoryBot.create(:user).id }
+        run_test!
+      end
 
-  #       after do |example|
-  #         example.metadata[:response][:content] = {
-  #           'application/json' => {
-  #             example: JSON.parse(response.body, symbolize_names: true)
-  #           }
-  #         }
-  #       end
-  #       run_test!
-  #     end
-  #   end
-
-  #   delete('delete user') do
-  #     response(200, 'successful') do
-  #       let(:id) { '123' }
-
-  #       after do |example|
-  #         example.metadata[:response][:content] = {
-  #           'application/json' => {
-  #             example: JSON.parse(response.body, symbolize_names: true)
-  #           }
-  #         }
-  #       end
-  #       run_test!
-  #     end
-  #   end
-  # end
+      response '404', 'user not found' do
+        let!(:id) { 2 }
+        run_test!
+      end
+    end
+  end
 end

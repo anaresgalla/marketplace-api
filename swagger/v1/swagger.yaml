@@ -13,7 +13,6 @@ paths:
       - name: Accept
         in: header
         description: Add structure for version
-        required: true
         schema:
           type: string
       - name: id
