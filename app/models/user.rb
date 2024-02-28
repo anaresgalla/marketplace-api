@@ -7,4 +7,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :email, presence: true
   validates :email, uniqueness: { case_sensitive: true }
+  validates :token, uniqueness: true
+
+  def generate_authentication_token!
+    loop do
+      self.token = Devise.friendly_token
+      break unless self.class.exists?(token:)
+    end
+  end
 end
