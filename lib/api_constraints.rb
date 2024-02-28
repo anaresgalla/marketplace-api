@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Description/Explanation of the class
 class ApiConstraints
   attr_accessor :version, :default
 

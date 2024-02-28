@@ -2,6 +2,7 @@
 
 module Api
   module V1
+    # Description/Explanation of the class
     class UsersController < ApplicationController
       respond_to :json
 

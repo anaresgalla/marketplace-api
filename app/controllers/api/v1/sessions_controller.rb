@@ -2,6 +2,7 @@
 
 module Api
   module V1
+    # Description/Explanation of the class
     class SessionsController < ApplicationController
       def create
         user_password = params[:session][:password]
@@ -11,7 +12,7 @@ module Api
 
         if user.valid_password? user_password
           sign_in user, store: false
-          user.generate_authentication_token!
+          user.generate_authentication_token! 
           user.save!
 
           render json: user, status: 200, location: [:api, user]
@@ -23,7 +24,7 @@ module Api
       def destroy
         user = User.find_by(token: params[:id])
         user.generate_authentication_token!
-        user.save
+        user.save!
         head 204
       end
     end
