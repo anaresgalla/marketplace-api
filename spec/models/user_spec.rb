@@ -40,4 +40,8 @@ RSpec.describe User, type: :model do
       expect(user.token).not_to eq existant_user.token
     end
   end
+
+  describe 'associations' do
+    it { should have_many :products}
+  end
 end
