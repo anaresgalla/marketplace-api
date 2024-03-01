@@ -41,13 +41,12 @@ RSpec.describe 'api/v1/users', type: :request do
                     user: {
                       type: :object,
                       properties: {
-                        email: { type: :string},
-                        password: { type: :string},
-                        password_confirmation: { type: :string}
+                        email: { type: :string },
+                        password: { type: :string },
+                        password_confirmation: { type: :string }
                       }
                     }
                   }
-
                 }
 
       response '201', 'create user' do
