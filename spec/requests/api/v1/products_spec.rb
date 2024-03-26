@@ -2,15 +2,15 @@ require 'swagger_helper'
 
 RSpec.describe 'api/v1/products', type: :request do
 
- #GET show
+  # GET Show
   path '/products/{id}' do
     get 'Retrieve a product' do
-      tags 'Api::V1::PRODUCTS'
+      tags 'API:V1::PRODUCTS'
       produces 'application/json'
       parameter name: :id, in: :path, type: :integer
 
       response '200', 'product found' do
-        schema type: :objetc,
+        schema type: :object,
                properties: {
                  id: { type: :integer },
                  title: { type: :string }
@@ -22,10 +22,10 @@ RSpec.describe 'api/v1/products', type: :request do
     end
   end
 
-  #GET index
+  # GET Index
   path '/products' do
     get 'List all products' do
-      tags 'Api::V1::PRODUCTS'
+      tags 'API:V1::PRODUCTS'
       produces 'application/json'
 
       response '200', 'products listed' do
@@ -34,16 +34,16 @@ RSpec.describe 'api/v1/products', type: :request do
     end
   end
 
-  # POST create
+  # POST Create
   path '/products' do
     post 'Create a product' do
-      tags 'Api::V1::PRODUCTS'
+      tags 'API:V1::PRODUCTS'
       consumes 'application/json'
-      parameter name: 'Authorization', 
-                in: :header,
-                description: 'Authorization token',
-                type: :string,
-                required: true
+      parameter name: 'Authorization',
+            in: :header,
+            description: 'Authorization token',
+            type: :string,
+            required: true
       parameter name: :body,
                 in: :body,
                 schema: {
@@ -53,7 +53,9 @@ RSpec.describe 'api/v1/products', type: :request do
                       type: :object,
                       properties: {
                         title: { type: :string },
-                        price: { type: :number }
+                        price: { type: :number },
+                        description: { type: :string },
+                        published: { type: :boolean }
                       }
                     }
                   }
@@ -63,13 +65,14 @@ RSpec.describe 'api/v1/products', type: :request do
         let!(:body) do
           {
             'product': {
-              'title': 'Smart TV',
-              'description': 'TV Samsung 55',
-              'price': 1200
+              'title': 'Smart Tv',
+              'price': 1200,
+              'description': 'smarttv é a melho escolha',
+              'published': false
             }
           }
         end
-        let!(:Authorization) { FactoryBot.create(:user).token}
+        let!(:'Authorization') { FactoryBot.create(:user).token }
         run_test!
       end
 
@@ -87,18 +90,18 @@ RSpec.describe 'api/v1/products', type: :request do
         run_test!
       end
     end
-  end 
+  end
 
   # PATCH/PUT Update
   path '/products/{id}' do
     patch 'Update a product' do
-      tags 'Api::V1::PRODUCTS'
+      tags 'API:V1::PRODUCTS'
       consumes 'application/json'
       parameter name: 'Authorization',
-                in: :header,
-                description: 'Authorization token',
-                type: :string,
-                required: true
+            in: :header,
+            description: 'Authorization token',
+            type: :string,
+            required: true
       parameter name: :id, in: :path, type: :integer
       parameter name: :body, in: :body,
                 schema: {
@@ -114,54 +117,66 @@ RSpec.describe 'api/v1/products', type: :request do
                     }
                   }
                 }
-      
+
       response '200', 'product updated' do
-        let!(:id) { FactoryBot.create(:product).id }
+        let!(:'Authorization') do
+          @user = FactoryBot.create(:user)
+          @user.token
+        end
+        let!(:id) { FactoryBot.create(:product, user: @user).id }
         let!(:body) do
           {
             'product': {
-              'title': 'Smart TV',
+              'title': 'An expensive TV',
               'description': 'TV Samsung 55',
               'price': 2000
             }
           }
         end
-        let!(:Authorization) { FactoryBot.create(:user).token }
         run_test!
       end
 
       response '422', 'invalid product' do
-        let!(:id) { FactoryBot.create(:product).id }
+        let!(:'Authorization') do
+          @user = FactoryBot.create(:user)
+          @user.token
+        end
+        let!(:id) { FactoryBot.create(:product, user: @user).id }
         let!(:body) do
           {
             'product': {
-              'title': 'Smart TV',
+              'title': 'Smart Tv',
               'description': 'TV Samsung 55',
-              'price': 'Two thousand'
+              'price': 'two hundred'
             }
           }
-        end
-        let(:Authorization) { FactoryBot.create(:user).token }
+        end        
         run_test!
       end
     end
   end
 
-  # DELETE destroy
+  # DELETE Destroy
   path '/products/{id}' do
     delete 'Delete a product' do
-      tags 'Api::V1::PRODUCTS'
+      tags 'API:V1::PRODUCTS'
       consumes 'application/json'
       parameter name: 'Authorization',
-                in: :header,
-                description: 'Authorization token',
-                type: :string,
-                required: true
+            in: :header,
+            description: 'Authorization token',
+            type: :string,
+            required: true
       parameter name: :id, in: :path, type: :integer
 
-      response '204', 'product deleted' do 
-        let!(:id) { FactoryBot.create(:product).id }
-        let!(:Authorization) { FactoryBot.create(:user).token }
+      response '204', 'product deleted' do
+        let!(:current_user) do
+          @user = FactoryBot.create(:user)
+        end
+        let!(:id) do
+          product = FactoryBot.create(:product, user: @user)
+          product.id
+        end
+        let!(:Authorization) { @user.token }
         run_test!
       end
     end
