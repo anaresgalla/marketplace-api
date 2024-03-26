@@ -8,7 +8,7 @@ paths:
     get:
       summary: Retrieve a product
       tags:
-      - API:V1::PRODUCTS
+      - Api::V1::PRODUCTS
       parameters:
       - name: id
         in: path
@@ -21,7 +21,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: objetc
                 properties:
                   id:
                     type: integer
@@ -30,7 +30,7 @@ paths:
     patch:
       summary: Update a product
       tags:
-      - API:V1::PRODUCTS
+      - Api::V1::PRODUCTS
       parameters:
       - name: Authorization
         in: header
@@ -46,6 +46,8 @@ paths:
       responses:
         '200':
           description: product updated
+        '422':
+          description: invalid product
       requestBody:
         content:
           application/json:
@@ -57,12 +59,14 @@ paths:
                   properties:
                     title:
                       type: string
+                    description:
+                      type: text
                     price:
                       type: number
     delete:
       summary: Delete a product
       tags:
-      - API:V1::PRODUCTS
+      - Api::V1::PRODUCTS
       parameters:
       - name: Authorization
         in: header
@@ -82,14 +86,14 @@ paths:
     get:
       summary: List all products
       tags:
-      - API:V1::PRODUCTS
+      - Api::V1::PRODUCTS
       responses:
         '200':
           description: products listed
     post:
       summary: Create a product
       tags:
-      - API:V1::PRODUCTS
+      - Api::V1::PRODUCTS
       parameters:
       - name: Authorization
         in: header
@@ -115,15 +119,11 @@ paths:
                       type: string
                     price:
                       type: number
-                    description:
-                      type: string
-                    published:
-                      type: boolean
   "/users/{id}":
     get:
-      summary: Retrivie a user
+      summary: Retrieves user
       tags:
-      - API:V1::USERS
+      - Api::V1::Users
       parameters:
       - name: Accept
         in: header
@@ -152,9 +152,9 @@ paths:
                   updated_at:
                     type: string
     delete:
-      summary: Delete a user
+      summary: Deletes user
       tags:
-      - API:V1::USERS
+      - API::V1::USERS
       parameters:
       - name: id
         in: path
@@ -164,45 +164,17 @@ paths:
       responses:
         '204':
           description: user deleted
-    patch:
-      summary: Update a user
-      tags:
-      - API:V1::USERS
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: user updated
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user:
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                    password:
-                      type: string
-                    password_confirmation:
-                      type: string
+        '404':
+          description: user not found
   "/users":
     post:
-      summary: Create a user
+      summary: Create user
       tags:
-      - API:V1::USERS
+      - Api::V1::Users
       parameters: []
       responses:
         '201':
           description: create user
-        '422':
-          description: create user error
       requestBody:
         content:
           application/json:
@@ -223,4 +195,3 @@ servers:
   variables:
     defaultHost:
       default: api.lvh.me:3000
-      
